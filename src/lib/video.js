@@ -51,6 +51,9 @@ export function parseVideo(url = '') {
       vertical: false, // Drive doesn't say; pick the section in the admin
       thumb: `https://drive.google.com/thumbnail?id=${id}&sz=w1280`,
       embed: `https://drive.google.com/file/d/${id}/preview`,
+      // The raw MP4 through this site's /api/drive-video (Drive blocks direct cross-site playback),
+      // played in a native <video> so phones get clean controls. On failure the player uses `embed`.
+      stream: `/api/drive-video?id=${id}`,
       link: `https://drive.google.com/file/d/${id}/view`,
     }
   }

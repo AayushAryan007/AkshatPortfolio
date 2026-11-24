@@ -29,7 +29,11 @@ function Modal({ item, onClose }) {
   const frame = useRef(null)
   const info = parseVideo(item.url)
   const vertical = item.format ? item.format === 'vertical' : info?.vertical
-  const canFullscreen = typeof document !== 'undefined' && document.fullscreenEnabled
+  const video = useRef(null)
+  const [streamFailed, setStreamFailed] = useState(false)
+  const native = !!info?.stream && !streamFailed
+  // iPhones can't make a <div> full screen, but they can a <video> (and they rotate it).
+  const canFullscreen = typeof document !== 'undefined' && (document.fullscreenEnabled || native)
 
   const close = useCallback(() => {
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {})
@@ -37,12 +41,18 @@ function Modal({ item, onClose }) {
     gsap.to(frame.current, { scale: 0.94, duration: 0.35, ease: 'power2.in' })
   }, [onClose])
 
-  // Full screen, turned to match the video where the phone allows it (Android).
-  // iPhones don't support this for embeds; there the player's own full-screen button rotates.
+  // Full screen, turned to match the video's real shape where the phone allows it (Android).
+  // iPhones use their native video player for this, which rotates on its own.
   const fullscreen = useCallback(async () => {
+    const v = video.current
+    if (v && !document.fullscreenEnabled && v.webkitEnterFullscreen) {
+      v.webkitEnterFullscreen()
+      return
+    }
+    const tall = v?.videoWidth ? v.videoHeight > v.videoWidth : vertical
     try {
-      await frame.current.requestFullscreen({ navigationUI: 'hide' })
-      await screen.orientation?.lock?.(vertical ? 'portrait' : 'landscape')
+      await (v || frame.current).requestFullscreen({ navigationUI: 'hide' })
+      await screen.orientation?.lock?.(tall ? 'portrait' : 'landscape')
     } catch {
       /* rotation lock not supported: the video still fills the screen */
     }
@@ -101,7 +111,21 @@ function Modal({ item, onClose }) {
         {['-left-3 -top-3 border-l border-t', '-right-3 -top-3 border-r border-t', '-left-3 -bottom-3 border-l border-b', '-right-3 -bottom-3 border-r border-b'].map((c) => (
           <span key={c} className={`absolute h-6 w-6 border-blood ${c}`} />
         ))}
-        {info ? (
+        {native ? (
+          <video
+            ref={video}
+            key={info.stream}
+            src={info.stream}
+            poster={item.cover || undefined}
+            className="h-full w-full bg-black object-contain"
+            controls
+            autoPlay
+            playsInline
+            preload="metadata"
+            controlsList="nodownload"
+            onError={() => setStreamFailed(true)}
+          />
+        ) : info ? (
           <iframe
             src={info.embed}
             title={item.title}

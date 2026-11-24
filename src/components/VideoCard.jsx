@@ -51,7 +51,7 @@ export default function VideoCard({ item, index, vertical = false, size = 'md', 
               alt=""
               loading="lazy"
               onError={() => setBroken(true)}
-              className="vc-img absolute -inset-[6%] h-[112%] w-[112%] object-cover transition-[filter,transform] duration-700 [filter:grayscale(0.35)_brightness(0.75)] group-hover:[filter:grayscale(0)_brightness(0.95)]"
+              className="vc-img absolute -inset-[6%] h-[112%] w-[112%] max-w-none object-cover transition-[filter,transform] duration-700 [filter:grayscale(0.35)_brightness(0.75)] group-hover:[filter:grayscale(0)_brightness(0.95)]"
             />
           ) : (
             <div className="vc-img no-signal absolute -inset-[6%]">
