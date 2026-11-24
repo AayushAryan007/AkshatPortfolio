@@ -85,7 +85,7 @@ export default function Hero({ ready }) {
   return (
     <section ref={root} id="home" className="relative min-h-[100svh] overflow-hidden md:h-[100svh] md:min-h-[680px]">
       {/* ambient glow + grid */}
-      <div className="h-glow pointer-events-none absolute left-1/2 top-[35%] h-[90vh] w-[90vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blood/25 blur-[140px] transform-gpu" />
+      <div className="h-glow pointer-events-none absolute left-1/2 top-[35%] h-[90vh] w-[90vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(224,24,45,0.25),transparent)]" />
       <div className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(70% 70% at 50% 40%, #000, transparent)' }} />
 

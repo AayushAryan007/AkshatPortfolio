@@ -31,6 +31,7 @@ function Modal({ item, onClose }) {
   const vertical = item.format ? item.format === 'vertical' : info?.vertical
   const video = useRef(null)
   const [streamFailed, setStreamFailed] = useState(false)
+  const [buffering, setBuffering] = useState(true)
   const native = !!info?.stream && !streamFailed
   // iPhones can't make a <div> full screen, but they can a <video> (and they rotate it).
   const canFullscreen = typeof document !== 'undefined' && (document.fullscreenEnabled || native)
@@ -124,6 +125,9 @@ function Modal({ item, onClose }) {
             preload="metadata"
             controlsList="nodownload"
             onError={() => setStreamFailed(true)}
+            onWaiting={() => setBuffering(true)}
+            onPlaying={() => setBuffering(false)}
+            onCanPlay={() => setBuffering(false)}
           />
         ) : info ? (
           <iframe
@@ -135,6 +139,11 @@ function Modal({ item, onClose }) {
           />
         ) : (
           <NoSignal />
+        )}
+        {native && buffering && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-label="Loading video">
+            <span className="h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-blood" />
+          </div>
         )}
         {info && (
           <a href={info.link} target="_blank" rel="noreferrer" className="label absolute -bottom-9 right-0 flex items-center gap-1 text-mute hover:text-bone">

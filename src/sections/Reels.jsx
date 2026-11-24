@@ -49,7 +49,7 @@ export default function Reels() {
 
   return (
     <section ref={root} id="reels" className="relative overflow-hidden py-20 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:py-0">
-      <div className="pointer-events-none absolute -right-40 top-1/4 h-[60vh] w-[60vh] rounded-full bg-blood/15 blur-[120px] transform-gpu" />
+      <div className="pointer-events-none absolute -right-40 top-1/4 h-[60vh] w-[60vh] rounded-full bg-[radial-gradient(closest-side,rgba(224,24,45,0.15),transparent)]" />
 
       <div className="mx-auto flex w-full max-w-[1600px] items-end justify-between gap-6 px-5 sm:px-8">
         <div className="rl-head line-mask">

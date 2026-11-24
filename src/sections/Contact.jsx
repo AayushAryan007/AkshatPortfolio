@@ -38,7 +38,7 @@ export default function Contact() {
 
   return (
     <section ref={root} id="contact" className="relative overflow-hidden pt-20 md:pt-28">
-      <div className="pointer-events-none absolute -left-40 bottom-0 h-[70vh] w-[70vh] rounded-full bg-blood/15 blur-[140px] transform-gpu" />
+      <div className="pointer-events-none absolute -left-40 bottom-0 h-[70vh] w-[70vh] rounded-full bg-[radial-gradient(closest-side,rgba(224,24,45,0.15),transparent)]" />
 
       <div className="relative mx-auto grid max-w-[1600px] gap-14 px-5 sm:px-8 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         <div>

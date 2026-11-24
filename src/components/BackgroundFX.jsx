@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { reduceMotion } from '../lib/motion'
+import { reduceMotion, isTouch } from '../lib/motion'
 
 // Full-page ambient motion graphics behind every section.
 //  · drifting red / wine light blobs (pure CSS transforms — GPU composited, no repaint)
@@ -17,14 +17,16 @@ export default function BackgroundFX() {
     let pts = []
     const streaks = []
     let nextStreak = 2
-    const FRAME = 1000 / 30
+    let scrollingUntil = 0
+    const FRAME = 1000 / (isTouch ? 24 : 30)
+    const onScroll = () => { scrollingUntil = performance.now() + 180 }
 
     const resize = () => {
       w = window.innerWidth
       h = window.innerHeight
       canvas.width = w // 1× DPR on purpose: thin glow lines don't need retina and it's 2–4× cheaper
       canvas.height = h
-      const count = Math.round(Math.min(42, (w * h) / 32000))
+      const count = Math.round(Math.min(isTouch ? 18 : 42, (w * h) / 32000))
       pts = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -36,6 +38,8 @@ export default function BackgroundFX() {
 
     const draw = (now) => {
       raf = requestAnimationFrame(draw)
+      // On phones, give every frame to scrolling: freeze the canvas while the page moves.
+      if (isTouch && now < scrollingUntil) { last = now; return }
       const delta = now - last
       last = now
       acc += delta
@@ -132,10 +136,12 @@ export default function BackgroundFX() {
     raf = requestAnimationFrame(draw)
     window.addEventListener('resize', resize)
     window.addEventListener('pointermove', onMove, { passive: true })
+    window.addEventListener('scroll', onScroll, { passive: true })
     document.addEventListener('visibilitychange', onVis)
     return () => {
       cancelAnimationFrame(raf)
       cancelAnimationFrame(mq)
+      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', onMove)
       document.removeEventListener('visibilitychange', onVis)

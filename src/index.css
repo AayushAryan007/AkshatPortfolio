@@ -208,6 +208,13 @@ body {
     linear-gradient(160deg, #141415, #0a0a0b 60%);
 }
 
+/* Phones: a full-screen layer moving under the finger costs every scroll frame. Keep the
+   grain, just hold it still, and drop the huge drifting blobs' animation too. */
+@media (hover: none) and (pointer: coarse) {
+  .grain { animation: none; will-change: auto; }
+  .bgfx-blob { animation: none; will-change: auto; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .grain,
   .spin-slow,

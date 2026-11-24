@@ -4,16 +4,24 @@ import { useGSAP } from '@gsap/react'
 import Lenis from 'lenis'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
+// Phones resize the viewport whenever the address bar slides in or out; re-measuring every
+// scroll trigger on each of those makes scrolling jump.
+ScrollTrigger.config({ ignoreMobileResize: true })
 
 export const reduceMotion =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// Touch screens (phones, tablets): the browser's own scrolling is the smoothest there.
+export const isTouch =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(hover: none) and (pointer: coarse)').matches
+
 let lenis = null
 
 export function startLenis() {
-  if (lenis || reduceMotion) return lenis
-  lenis = new Lenis({ lerp: 0.16, wheelMultiplier: 1.15, touchMultiplier: 1.4 })
+  if (lenis || reduceMotion || isTouch) return lenis
+  lenis = new Lenis({ lerp: 0.16, wheelMultiplier: 1.15 })
   lenis.on('scroll', ScrollTrigger.update)
   gsap.ticker.add((t) => lenis.raf(t * 1000))
   gsap.ticker.lagSmoothing(0)
