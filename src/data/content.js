@@ -7,7 +7,7 @@ export const profile = {
   lastName: 'ARYAN',
   brand: 'THE CINEMA', // PLACEHOLDER — pick a brand mark (see options)
   tagline: 'Digital Creator',
-  roles: ['Video Editor', 'Visual Designer'],
+  roles: ['Video Editor', 'Motion Designer'],
   intro:
     'I cut, colour and design stories that stop the scroll. From cinematic long-form to punchy reels, I obsess over rhythm, pacing and the frame-perfect detail that makes people feel something.', // PLACEHOLDER
   badge: 'Turning raw footage into powerful visual stories.',

@@ -81,7 +81,7 @@ export default function VideosList() {
   function quickAdd(e) {
     e.preventDefault()
     const info = parseVideo(quick)
-    if (!info) return toast('That doesn’t look like a YouTube or Instagram link.', 'error')
+    if (!info) return toast('That doesn’t look like a YouTube, Instagram or Google Drive link.', 'error')
     navigate(`/admin/videos/new?url=${encodeURIComponent(quick.trim())}`)
   }
 
@@ -91,13 +91,13 @@ export default function VideosList() {
     <>
       <PageHeader
         title="Videos & reels"
-        description="Paste YouTube or Instagram links — they play right on the site. Hidden videos stay off the site."
+        description="Paste YouTube, Instagram or Google Drive links — they play right on the site. Hidden videos stay off the site."
         actions={<Link to={`/admin/videos/new?format=${tab}`} className="btn-primary inline-flex min-h-[42px] items-center rounded-full px-5 text-[0.9rem] font-medium">Add video</Link>}
       />
 
       <Card className="mb-6">
         <form onSubmit={quickAdd} className="flex flex-col gap-3 sm:flex-row">
-          <Input value={quick} onChange={(e) => setQuick(e.target.value)} placeholder="Quick add: paste a YouTube or Instagram link…" type="url" />
+          <Input value={quick} onChange={(e) => setQuick(e.target.value)} placeholder="Quick add: paste a YouTube, Instagram or Google Drive link…" type="url" />
           <Button type="submit" className="shrink-0">Continue →</Button>
         </form>
         <p className="mt-2 text-[0.75rem] text-mute">YouTube Shorts and Instagram reels are filed under Reels automatically.</p>
@@ -148,7 +148,7 @@ export default function VideosList() {
                   </Link>
                   <p className="truncate text-[0.85rem] text-mute">{[v.category, v.client, v.year].filter(Boolean).join(' · ') || '—'}</p>
                   <p className="mt-1 flex flex-wrap gap-x-3 text-[0.78rem] text-bone/60">
-                    <span className="capitalize">{info?.platform ?? 'Unknown link'}</span>
+                    <span>{info ? { youtube: 'YouTube', instagram: 'Instagram', drive: 'Google Drive' }[info.platform] : 'Unknown link'}</span>
                     <a href={v.url} target="_blank" rel="noreferrer" className="hover:text-bone">Open ↗</a>
                   </p>
                 </div>

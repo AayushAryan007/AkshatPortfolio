@@ -1,7 +1,8 @@
 import { useRef } from 'react'
 import { gsap, useGSAP, reduceMotion } from '../lib/motion'
 import { useContent } from '../lib/content'
-import { Mail, Globe, Phone, Pin, Arrow, ArrowUpRight, Spark } from '../components/Icons'
+import { Link } from 'react-router'
+import { Mail, Globe, Phone, Pin, Arrow, ArrowUpRight, Spark, Key } from '../components/Icons'
 import Magnetic from '../components/Magnetic'
 import Scramble from '../components/Scramble'
 
@@ -111,7 +112,17 @@ export default function Contact() {
 
       <footer className="relative mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3 border-t border-line px-5 pb-16 pt-6 sm:px-8 sm:pb-14">
         <span className="label text-[10px] text-mute">© {new Date().getFullYear()} {profile.firstName} {profile.lastName} — All rights reserved</span>
-        <span className="label text-[10px] text-mute">{profile.roles.join(' · ')}</span>
+        <div className="flex items-center gap-4">
+          <span className="label text-[10px] text-mute">{profile.roles.join(' · ')}</span>
+          <Link
+            to="/admin"
+            aria-label="Admin sign in"
+            title="Admin sign in"
+            className="grid h-7 w-7 place-items-center rounded-full border border-white/10 text-mute/60 transition-colors duration-300 hover:border-blood/60 hover:text-blood"
+          >
+            <Key className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </footer>
     </section>
   )

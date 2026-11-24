@@ -77,7 +77,7 @@ export default function VideoForm() {
 
   async function save(e) {
     e.preventDefault()
-    if (!info) return toast('Paste a valid YouTube or Instagram link.', 'error')
+    if (!info) return toast('Paste a valid YouTube, Instagram or Google Drive link.', 'error')
     if (!form.title.trim()) return toast('Give the video a title.', 'error')
     setSaving(true)
     const values = {
@@ -136,12 +136,12 @@ export default function VideoForm() {
       <form onSubmit={save} className="grid gap-5 lg:grid-cols-[1fr_minmax(280px,400px)]">
         <div className="space-y-5">
           <Card className="space-y-4">
-            <Field label="YouTube or Instagram link" htmlFor="url" hint="youtube.com/watch, youtu.be, youtube.com/shorts, instagram.com/reel or /p links all work.">
+            <Field label="YouTube, Instagram or Google Drive link" htmlFor="url" hint="youtube.com/watch, youtu.be, youtube.com/shorts, instagram.com/reel or /p, and drive.google.com/file/d/… links all work. Drive files must be shared as “Anyone with the link”.">
               <Input id="url" type="url" required value={form.url} onChange={(e) => onUrl(e.target.value)} placeholder="https://www.youtube.com/watch?v=…" autoFocus={isNew} />
             </Field>
             {form.url && (
               <p className={`text-[0.82rem] ${info ? 'text-bone/75' : 'text-ember'}`}>
-                {info ? <>✓ Detected <b className="capitalize">{info.platform}</b>{info.vertical ? ' (vertical)' : ''}</> : 'Not a recognised YouTube or Instagram link.'}
+                {info ? <>✓ Detected <b>{{ youtube: 'YouTube', instagram: 'Instagram', drive: 'Google Drive' }[info.platform]}</b>{info.vertical ? ' (vertical)' : ''}{info.platform === 'drive' ? ' — choose Selected Work or Reels below, and check the file is shared as “Anyone with the link”.' : ''}</> : 'Not a recognised YouTube, Instagram or Google Drive link.'}
               </p>
             )}
 
@@ -211,7 +211,9 @@ export default function VideoForm() {
             <p className="mt-1 text-[0.75rem] leading-snug text-mute">
               {info?.platform === 'instagram'
                 ? 'Recommended: Instagram doesn’t share thumbnails, so without a cover the card shows a styled placeholder.'
-                : 'Optional: YouTube videos use their own thumbnail automatically. Upload one to override it.'}
+                : info?.platform === 'drive'
+                  ? 'Recommended: Drive thumbnails don’t always load for visitors. Upload a cover to be sure.'
+                  : 'Optional: YouTube videos use their own thumbnail automatically. Upload one to override it.'}
             </p>
             <div
               className={`mt-3 overflow-hidden rounded-xl border border-dashed transition-colors ${dragging ? 'border-blood bg-blood/10' : 'border-line'} ${vertical ? 'mx-auto aspect-[9/16] w-1/2' : 'aspect-video'}`}

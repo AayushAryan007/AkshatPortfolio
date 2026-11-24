@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { gsap } from '../lib/motion'
 import { parseVideo } from '../lib/video'
 import { useVideoModal } from './VideoModal'
@@ -10,7 +10,9 @@ export default function VideoCard({ item, index, vertical = false, size = 'md', 
   const open = useVideoModal()
   const frame = useRef(null)
   const info = parseVideo(item.url)
-  const thumb = item.cover || info?.thumb
+  const [broken, setBroken] = useState(false)
+  // Drive thumbnails can be blocked for some files — fall back to the styled placeholder.
+  const thumb = broken ? null : item.cover || info?.thumb
 
   const onMove = (e) => {
     if (!window.matchMedia('(pointer: fine)').matches) return
@@ -48,6 +50,7 @@ export default function VideoCard({ item, index, vertical = false, size = 'md', 
               src={thumb}
               alt=""
               loading="lazy"
+              onError={() => setBroken(true)}
               className="vc-img absolute -inset-[6%] h-[112%] w-[112%] object-cover transition-[filter,transform] duration-700 [filter:grayscale(0.35)_brightness(0.75)] group-hover:[filter:grayscale(0)_brightness(0.95)]"
             />
           ) : (
@@ -64,7 +67,7 @@ export default function VideoCard({ item, index, vertical = false, size = 'md', 
           <div className="absolute left-3 top-3 flex items-center gap-2">
             <span className="rec-dot h-1.5 w-1.5 rounded-full bg-blood opacity-0 transition-opacity group-hover:opacity-100" />
             <span className="mono text-[10px] tracking-[0.15em] text-white/70">
-              {info ? info.platform.toUpperCase() : 'PLACEHOLDER'}
+              {info ? (info.platform === 'drive' ? 'DRIVE' : info.platform.toUpperCase()) : 'PLACEHOLDER'}
             </span>
           </div>
           <span className="mono absolute right-3 top-3 text-[10px] tracking-[0.15em] text-white/50">

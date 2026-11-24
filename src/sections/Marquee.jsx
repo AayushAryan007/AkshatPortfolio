@@ -1,26 +1,15 @@
 import { useRef } from 'react'
-import { gsap, useGSAP, reduceMotion } from '../lib/motion'
 import { useContent } from '../lib/content'
 import { Spark } from '../components/Icons'
 
 // Two tilted strips that sway slowly left ↔ right, always in opposite directions.
+// Pure CSS animation: runs on the compositor, so it stays smooth on phones.
 export default function Marquee() {
   const { marquee } = useContent()
   const root = useRef(null)
 
-  useGSAP(
-    () => {
-      if (reduceMotion) return
-      const [a, b] = gsap.utils.toArray('.mq-row')
-      const sway = { duration: 14, ease: 'sine.inOut', repeat: -1, yoyo: true }
-      gsap.fromTo(a, { xPercent: -8 }, { xPercent: -30, ...sway })
-      gsap.fromTo(b, { xPercent: -30 }, { xPercent: -8, ...sway })
-    },
-    { scope: root }
-  )
-
   const Row = ({ outline }) => (
-    <div className="mq-row flex w-max will-change-transform">
+    <div className={`mq-row flex w-max will-change-transform ${outline ? 'mq-sway-b' : 'mq-sway-a'}`}>
       {[0, 1, 2].map((k) => (
         <div key={k} className="flex shrink-0 items-center">
           {marquee.map((m) => (

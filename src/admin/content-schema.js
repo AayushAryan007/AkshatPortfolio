@@ -49,7 +49,7 @@ export const sections = [
     title: 'Showreel',
     description: 'The big “SHOW ▶ REEL” block and the “Play showreel” button.',
     fields: [
-      { name: 'url', label: 'Showreel link', type: 'url', hint: 'YouTube or Instagram link.' },
+      { name: 'url', label: 'Showreel link', type: 'url', hint: 'YouTube, Instagram or Google Drive link.' },
       { name: 'label', label: 'Title', type: 'text' },
       { name: 'duration', label: 'Duration', type: 'text', hint: 'e.g. 01:24' },
     ],

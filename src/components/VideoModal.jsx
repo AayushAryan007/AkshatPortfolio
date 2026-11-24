@@ -75,7 +75,7 @@ function Modal({ item, onClose }) {
         )}
         {info && (
           <a href={info.link} target="_blank" rel="noreferrer" className="label absolute -bottom-9 right-0 flex items-center gap-1 text-mute hover:text-bone">
-            Open on {info.platform} <ArrowUpRight className="h-3.5 w-3.5" />
+            Open on {{ youtube: 'YouTube', instagram: 'Instagram', drive: 'Google Drive' }[info.platform]} <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         )}
       </div>
@@ -94,7 +94,7 @@ function NoSignal() {
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/55 text-center">
         <p className="display text-5xl sm:text-7xl">No Signal</p>
         <p className="mono max-w-sm px-6 text-[11px] tracking-[0.15em] text-white/70">
-          PLACEHOLDER — PASTE A YOUTUBE OR INSTAGRAM LINK FOR THIS VIDEO AND IT WILL PLAY RIGHT HERE
+          PLACEHOLDER — PASTE A YOUTUBE, INSTAGRAM OR GOOGLE DRIVE LINK FOR THIS VIDEO AND IT WILL PLAY RIGHT HERE
         </p>
       </div>
       <div className="scan-sweep pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-transparent via-white/10 to-transparent" />

@@ -187,6 +187,10 @@ body {
   0% { left: -40%; }
   100% { left: 120%; }
 }
+/* Marquee strips: always on (gentle sway), not disabled by reduced motion */
+@keyframes mq-sway { from { transform: translate3d(-8%, 0, 0); } to { transform: translate3d(-30%, 0, 0); } }
+.mq-sway-a { animation: mq-sway 14s ease-in-out infinite alternate; }
+.mq-sway-b { animation: mq-sway 14s ease-in-out infinite alternate-reverse; }
 .mq-sheen {
   animation: sheen 7s ease-in-out infinite;
 }

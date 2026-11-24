@@ -42,7 +42,7 @@ export default function Dashboard() {
       <div className="mt-6 grid gap-3 md:grid-cols-2">
         <Card>
           <h2 className="text-[1.15rem] tracking-[-0.02em]">Videos & reels</h2>
-          <p className="mt-1.5 text-[0.9rem] text-mute">Paste YouTube or Instagram links. They play inside the site, in the Selected Work grid or the Reels carousel.</p>
+          <p className="mt-1.5 text-[0.9rem] text-mute">Paste YouTube, Instagram or Google Drive links. They play inside the site, in the Selected Work grid or the Reels carousel.</p>
           <div className="mt-5 flex flex-wrap gap-2">
             <Link to="/admin/videos/new" className={btn}>Add a video</Link>
             <Link to="/admin/videos" className={ghost}>Manage videos</Link>
