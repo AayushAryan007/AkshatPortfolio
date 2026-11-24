@@ -26,7 +26,7 @@ export default function About() {
       })
 
       gsap.from('.ab-quote-word', { yPercent: 100, opacity: 0, stagger: 0.04, duration: 1, ease: 'expo.out', scrollTrigger: st('.ab-quote') })
-      gsap.fromTo('.ab-sign', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 2, ease: 'power2.inOut', scrollTrigger: st('.ab-quote', 'top 60%') })
+      gsap.fromTo('.ab-sign', { clipPath: 'inset(-30% 100% -30% -30%)' }, { clipPath: 'inset(-30% -30% -30% -30%)', duration: 2, ease: 'power2.inOut', scrollTrigger: st('.ab-quote', 'top 60%') })
     },
     { scope: root }
   )
